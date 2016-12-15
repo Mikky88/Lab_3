@@ -148,12 +148,12 @@ public class GoldModel implements GameModel {
     public GameTile getGameboardState(final Position position) {
         return getGameboardState(position.getX(), position.getY());
     }
-@Override
-    public void setGameboardState(final int x, final int y, final GameTile tile) {
+
+    private void setGameboardState(final int x, final int y, final GameTile tile) {
         GameUtil.setGameboardState(x, y, tile, gameboardState);
     }
 
-    public void setGameboardState(final Position position, final GameTile tile) {
+    private void setGameboardState(final Position position, final GameTile tile) {
         setGameboardState(position.getX(), position.getY(), tile);
     }
 
@@ -284,5 +284,4 @@ public class GoldModel implements GameModel {
     private void notifyObservers(String listener) {
         pcs.firePropertyChange(listener, true, false);
     }
-
 }

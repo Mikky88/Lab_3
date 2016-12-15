@@ -8,17 +8,6 @@ import java.awt.Dimension;
  */
 public interface GameModel extends IObservable{
 
-
-    /**
-     * Set the tile on a specified position in the gameboard.
-     *
-     * @param x    Coordinate in the gameboard matrix.
-     * @param y    Coordinate in the gameboard matrix.
-     * @param tile The type of tile to paint in specified position
-     */
-    public void setGameboardState(final int x, final int y,
-                                  final GameTile tile);
-
     /**
      * Returns the GameTile in logical position (x,y) of the gameboard.
      *

@@ -118,9 +118,10 @@ public class GameController implements Runnable {
 		this.isRunning = true;
 
 		// Create the new thread and start it...
-		this.gameThread = new Thread(this);
-		this.gameThread.start();
-        this.updateInterval = gameModel.getUpdateSpeed();
+        if (updateInterval >= 0) {
+            this.gameThread = new Thread(this);
+            this.gameThread.start();
+        }
 	}
 
 	/**
@@ -160,11 +161,8 @@ public class GameController implements Runnable {
 				// Tell model to update, send next key press.
 				// or 0 if no new keypress since last update.
 				this.gameModel.gameUpdate(nextKeyPress());
-                if (updateInterval < 0) {
-                    Thread.sleep(200);
-                } else {
-                    Thread.sleep(this.updateInterval);
-                }
+
+                Thread.sleep(this.updateInterval);
 
 			} catch (GameOverException e) {
 				// we got a game over signal, time to exit...
