@@ -249,7 +249,7 @@ public class GoldModel implements GameModel {
 
         // Add a new coin (simulating moving one coin)
         addCoin();
-
+        notifyObservers("GameView");
     }
 
     /**
@@ -267,5 +267,9 @@ public class GoldModel implements GameModel {
 
     public void removeObserver(PropertyChangeListener observer) {
         pcs.removePropertyChangeListener(observer);
+    }
+
+    private void notifyObservers(String listener) {
+        pcs.firePropertyChange(listener, true, false);
     }
 }

@@ -330,6 +330,7 @@ public class ReversiModel implements GameModel {
             removeCursor(this.cursorPos);
             this.cursorPos = nextCursorPos;
             updateCursor();
+            notifyObservers("GameView");
         } else {
             throw new GameOverException(this.blackScore - this.whiteScore);
         }
@@ -423,6 +424,10 @@ public class ReversiModel implements GameModel {
 
     public void removeObserver(PropertyChangeListener observer) {
         pcs.removePropertyChangeListener(observer);
+    }
+
+    private void notifyObservers(String listener) {
+        pcs.firePropertyChange(listener, true, false);
     }
 
 }
