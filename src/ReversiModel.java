@@ -174,9 +174,10 @@ public class ReversiModel implements GameModel {
                         (this.turn == Turn.BLACK
                                 ? PieceColor.BLACK
                                 : PieceColor.WHITE);
-                System.out.println("Bong! White: " + this.whiteScore
-                        + "\tBlack: " + this.blackScore);
+                /*System.out.println("Bong! White: " + this.whiteScore
+                        + "\tBlack: " + this.blackScore);*/
                 this.turn = Turn.nextTurn(this.turn);
+                notifyObservers("ReversiScoreView");
             }
             if (!canTurn(this.turn)) {
                 if (!canTurn(Turn.nextTurn(this.turn))) {
