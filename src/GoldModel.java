@@ -100,6 +100,11 @@ public class GoldModel implements GameModel {
     private int score;
 
     /**
+     * The time between updates.
+     */
+    private int updateInterval;
+
+    /**
      * A Matrix containing the state of the gameboard.
      */
     private final GameTile[][] gameboardState;
@@ -131,6 +136,8 @@ public class GoldModel implements GameModel {
         for (int i = 0; i < COIN_START_AMOUNT; i++) {
             addCoin();
         }
+
+        this.updateInterval = 200;
     }
 
     @Override
@@ -252,6 +259,11 @@ public class GoldModel implements GameModel {
         notifyObservers("GameView");
     }
 
+    @Override
+    public int getUpdateSpeed() {
+        return updateInterval;
+    }
+
     /**
      * @param pos The position to test.
      * @return <code>false</code> if the position is outside the playing field, <code>true</code> otherwise.
@@ -272,4 +284,5 @@ public class GoldModel implements GameModel {
     private void notifyObservers(String listener) {
         pcs.firePropertyChange(listener, true, false);
     }
+
 }

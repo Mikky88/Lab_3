@@ -18,7 +18,7 @@ public class GameController implements Runnable {
 	private GameModel gameModel;
 
 	/** The timeout interval between each update. (millis) */
-	private final int updateInterval;
+	private int updateInterval;
 
 	/** True when game is running. */
 	private boolean isRunning;
@@ -68,7 +68,18 @@ public class GameController implements Runnable {
 	 * Add a key press to the end of the queue
 	 */
 	private synchronized void enqueueKeyPress(final int key) {
-		this.keypresses.add(Integer.valueOf(key));
+	    if (gameModel.getUpdateSpeed() < 0) {
+	        try {
+	            this.gameModel.gameUpdate(Integer.valueOf(key));
+            } catch (GameOverException e) {
+                    // we got a game over signal, time to exit...
+                    // The current implementation ignores the game score
+                    this.isRunning = false;
+                    System.out.println("Game over: " + e.getScore());
+            }
+        } else {
+            this.keypresses.add(Integer.valueOf(key));
+        }
 	}
 
 	/**
@@ -109,6 +120,7 @@ public class GameController implements Runnable {
 		// Create the new thread and start it...
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
+        this.updateInterval = gameModel.getUpdateSpeed();
 	}
 
 	/**
@@ -148,8 +160,12 @@ public class GameController implements Runnable {
 				// Tell model to update, send next key press.
 				// or 0 if no new keypress since last update.
 				this.gameModel.gameUpdate(nextKeyPress());
+                if (updateInterval < 0) {
+                    Thread.sleep(200);
+                } else {
+                    Thread.sleep(this.updateInterval);
+                }
 
-				Thread.sleep(this.updateInterval);
 			} catch (GameOverException e) {
 				// we got a game over signal, time to exit...
 				// The current implementation ignores the game score

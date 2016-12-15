@@ -85,10 +85,12 @@ public class ReversiModel implements GameModel {
     private final int width;
     private final int height;
     private boolean gameOver;
+    private int updateInterval;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public ReversiModel() {
 
+        this.updateInterval = -1;
         this.width = GameUtil.getGameboardSize().width;
         this.height = GameUtil.getGameboardSize().height;
         this.board = new PieceColor[this.width][this.height];
@@ -347,6 +349,11 @@ public class ReversiModel implements GameModel {
                 setGameboardState(oldCursorPos, c.getBottom());
             }
         }
+    }
+
+    @Override
+    public int getUpdateSpeed() {
+        return updateInterval;
     }
 
     private void updateCursor() {
