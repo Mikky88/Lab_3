@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
 
@@ -54,6 +55,11 @@ public class GameView extends JComponent {
 	 */
 	public void setModel(final GameModel model) {
 		this.model = model;
+		/*if (model != null) {
+			model.addObserver(this);
+		} else {
+			model.removeObserver(this);
+		}*/
 		repaint();
 	}
 
@@ -106,5 +112,6 @@ public class GameView extends JComponent {
 			final char[] message = "No model chosen.".toCharArray(); 
 			g.drawChars(message, 0, message.length, 50, 50);
 		}
+
 	}
 }

@@ -12,7 +12,7 @@ public class GameUtil {
      * @param tile
      *            The type of tile to paint in specified position
      */
-    protected void setGameboardState(final int x, final int y,
+    public static void setGameboardState(final int x, final int y,
                                      final GameTile tile,GameTile[][] gameBoard) {
         gameBoard[x][y] = tile;
     }
@@ -24,14 +24,14 @@ public class GameUtil {
      * @param y
      *            Coordinate in the gameboard matrix.
      */
-    public GameTile getGameboardState(final int x, final int y, GameTile[][] gameBoard) {
+    public static GameTile getGameboardState(final int x, final int y, GameTile[][] gameBoard) {
         return gameBoard[x][y];
     }
 
     /**
      * Returns the size of the gameboard.
      */
-    public Dimension getGameboardSize() {
+    public static Dimension getGameboardSize() {
         return Constants.getGameSize();
     }
 }

@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,17 +103,15 @@ public class GoldModel implements GameModel {
      * A Matrix containing the state of the gameboard.
      */
     private final GameTile[][] gameboardState;
-    /**
-     * A utility class
-     */
-    GameUtil gameUtil;
+
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
     /**
      * Create a new model for the gold game.
      */
     public GoldModel() {
 
-        gameUtil = new GameUtil();
-        Dimension size = getGameboardSize();
+        Dimension size = GameUtil.getGameboardSize();
 
         this.gameboardState =
                 new GameTile[size.width][size.height];
@@ -132,12 +132,10 @@ public class GoldModel implements GameModel {
             addCoin();
         }
     }
-    public Dimension getGameboardSize(){
-        return gameUtil.getGameboardSize();
-    }
+
     @Override
     public GameTile getGameboardState(final int x, final int y) {
-        return this.gameUtil.getGameboardState(x, y, gameboardState);
+        return GameUtil.getGameboardState(x, y, gameboardState);
     }
 
     public GameTile getGameboardState(final Position position) {
@@ -145,7 +143,7 @@ public class GoldModel implements GameModel {
     }
 @Override
     public void setGameboardState(final int x, final int y, final GameTile tile) {
-        this.gameUtil.setGameboardState(x, y, tile, gameboardState);
+        GameUtil.setGameboardState(x, y, tile, gameboardState);
     }
 
     public void setGameboardState(final Position position, final GameTile tile) {
@@ -158,7 +156,7 @@ public class GoldModel implements GameModel {
      */
     private void addCoin() {
         Position newCoinPos;
-        Dimension size = getGameboardSize();
+        Dimension size = GameUtil.getGameboardSize();
         // Loop until a blank position is found and ...
         do {
             newCoinPos = new Position((int) (Math.random() * size.width),
@@ -259,9 +257,15 @@ public class GoldModel implements GameModel {
      * @return <code>false</code> if the position is outside the playing field, <code>true</code> otherwise.
      */
     private boolean isOutOfBounds(Position pos) {
-        return pos.getX() < 0 || pos.getX() >= getGameboardSize().width
-                || pos.getY() < 0 || pos.getY() >= getGameboardSize().height;
+        return pos.getX() < 0 || pos.getX() >= GameUtil.getGameboardSize().width
+                || pos.getY() < 0 || pos.getY() >= GameUtil.getGameboardSize().height;
     }
 
+    public void addObserver(PropertyChangeListener observer) {
+        pcs.addPropertyChangeListener(observer);
+    }
 
+    public void removeObserver(PropertyChangeListener observer) {
+        pcs.removePropertyChangeListener(observer);
+    }
 }
